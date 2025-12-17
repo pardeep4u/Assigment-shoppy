@@ -14,6 +14,8 @@ export default async function ProductPage(props: IProductPageProps) {
   try {
     const res = await fetch(`https://fakestoreapi.com/products/${id}`,{cache: "no-store"});
 
+    console.log(res);
+
     if (!res.ok) {
       throw new Error("Failed to fetch product");
     }
