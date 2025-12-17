@@ -1,5 +1,6 @@
 ## Features
 - Grid layout showing image, title, price
+- Maintained good file format, code quality
 - Search bar → filter by product title
 - Category filter → use /products/categories
 - Sorting: Price Low → High, Price High → Low
