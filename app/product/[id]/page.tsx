@@ -1,33 +1,51 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Product } from "@/utils/type";
+import { useParams } from 'next/navigation';
 import Image from "next/image";
 
 interface IProductPageProps {
-  params: { id: string | number };
+  id: string | number ;
 }
 
-export default async function ProductPage(props: IProductPageProps) {
-  const { id } = await props.params;
+export default function ProductPage() {
+  const params = useParams() as unknown as IProductPageProps;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  let product: Product | null = null;
-  let error: string | null = null;
-
-  try {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`,{cache: "no-store"});
-
-    console.log(res);
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch product");
+  useEffect(() => {
+    async function fetchProduct() {
+      try {
+        setLoading(true);
+        const res = await fetch(`https://fakestoreapi.com/products/${params.id}`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch product");
+        }
+        const data: Product = await res.json();
+        setProduct(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
     }
 
-    product = await res.json();
-  } catch (err) {
-    error = err instanceof Error ? err.message : "Something went wrong";
+    fetchProduct();
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors">
+        <p className="text-gray-500">Loading product...</p>
+      </main>
+    );
   }
 
   if (error || !product) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-gray-50 px-6">
+      <main className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 transition-colors">
         <p className="text-red-500 text-lg">{error || "Product not found"}</p>
       </main>
     );
