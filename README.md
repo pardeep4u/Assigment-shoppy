@@ -1,4 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Features
+- Grid layout showing image, title, price
+- Search bar → filter by product title
+- Category filter → use /products/categories
+- Sorting: Price Low → High, Price High → Low
+- Pagination → 6 products per page
+- Product Detail Page
+- Used React Hook Form + Zod for validation
+- Loading skeletons
+- Error states
+- Debounced search
+- Dark mode
 
 ## Getting Started
 
